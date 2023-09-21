@@ -1,0 +1,28 @@
+<%- include('partials/headerLogin') %>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Seleccionar Sucursal</h2>
+                </div>
+                <div class="card-body">
+                    <form action="/set-sucursal" method="post">
+                        <!-- Campo Sucursal -->
+                        <div class="form-group">
+                            <label for="sucursal" class="font-weight-bold">Selecciona una Sucursal:</label>
+                            <select class="form-control custom-select" name="sucursalId" required>
+                                <% sucursales.forEach(sucursal => { %>
+                                    <option value="<%= sucursal.id %>"><%= sucursal.nombre %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        
+                        <!-- Botón Continuar -->
+                        <button type="submit" class="btn btn-primary btn-block">Continuar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

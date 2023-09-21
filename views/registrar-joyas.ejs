@@ -1,0 +1,106 @@
+<% if (role === 'admin') { %>
+    <%- include('partials/headerAdmin.ejs') %>
+<% } else { %>
+    <%- include('partials/headerEmpleado') %>
+<% } %>
+
+<style>
+    /* Estilos personalizados */
+    body {
+        background-color: #f8f9fa;
+    }
+    .card-header i {
+        font-size: 3rem;
+        color: green;
+    }
+    .form-group label {
+        font-weight: bold;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center bg-secondary text-white">
+                    <i class="bi bi-gem" style="font-size: 3rem;"></i>
+                    <h2>Registrar Joya</h2>
+                    <% if (exito && exito.length > 0) { %>
+                        <div class="alert alert-dismissible alert-success">
+                            <strong>Muy bien!</strong>  <%= exito[0] %>
+                          </div>
+                    <% } %>
+                    <% if (error && error.length > 0) { %>
+                        <div class="alert alert-dismissible alert-danger">
+                            <strong>Ups!</strong>  <%= error[0] %>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="card-body">
+                    <form action="/registrar-joyas" method="post">
+                        <!-- Campo Boleta -->
+                        <div class="form-group">
+                            <label for="boleta" class="font-weight-bold">Boleta:</label>
+                            <input type="text" class="form-control" id="boleta" name="boleta" placeholder="Número de boleta" value="<%= boleta %>" required readonly>
+                        </div>
+
+                        <!-- Campo Joya -->
+                        <div class="form-group">
+                            <label for="joya" class="font-weight-bold">Joya:</label>
+                            <input type="text" class="form-control" id="joya" name="joya" placeholder="Descripción de la joya" required autocomplete="off">
+                        </div>
+
+                        <!-- Campo Descripción -->
+                        <div class="form-group">
+                            <label for="descripcion" class="font-weight-bold">Descripción:</label>
+                            <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Breve descripción" required autocomplete="off">
+                        </div>
+
+                        <!-- Campo Material -->
+                        <div class="form-group">
+                            <label for="exampleSelect1" class="form-label">Material:</label>
+                            <select class="custom-select" id="exampleSelect1" name="material">
+                                <option>Oro Amarillo</option>
+                                <option>Oro Blanco</option>
+                                <option>Oro Rosa</option>
+                                <option>3 Oros</option>
+                                <option>Otro</option>
+
+                            </select>
+                        </div>
+
+                        <!-- Campo Kilates -->
+                        <div class="form-group">
+                            <label for="exampleSelect1" class="form-label">Kilates:</label>
+                            <select class="custom-select" id="exampleSelect1" name="kilates">
+                                <option>10K</option>
+                                <option>14K</option>
+                                <option>18K</option>
+                                <option>22K</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+
+                        <!-- Campo Peso -->
+                        <div class="form-group">
+                            <label for="peso" class="font-weight-bold">Peso:</label>
+                            <input type="text" class="form-control" id="peso" name="peso" placeholder="Peso en gramos" required autocomplete="off">
+                        </div>
+
+                        <!-- Campo Precio -->
+                        <div class="form-group">
+                            <label for="peso" class="font-weight-bold">Valor:</label>
+                            <input type="text" class="form-control" id="valor" name="valor" placeholder="Valor en colones" required autocomplete="off">
+                        </div>
+
+                        <!-- Botón Registrar Joya -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Registrar Joya</button>
+                        </div>
+                    </form>
+                    <p class="text-body-tertiary"><a href="/empeno/<%= boleta %>">Ir al perfil del Empeño</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

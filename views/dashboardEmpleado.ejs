@@ -1,0 +1,77 @@
+<%- include('partials/headerEmpleado') %>
+
+<!-- Dashboard Empleado -->
+<div class="container mt-5">
+    <h1 class="mb-2" data-aos="fade-right" data-aos-delay="500">Dashboard Colaborador</h1>
+    <p class="text-primary saludo mb-5" data-aos="fade-right" data-aos-delay="500"></p>
+    <div class="row">
+        <!-- Gestión de Empeños -->
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="card text-center" >
+                <div class="card-body">
+                    <i class="bi bi-cash" style="font-size: 3rem;"></i>
+                    <h5 class="card-title mt-3">Empeños</h5>
+                    <p class="card-text">Administra los empeños y sus pagos.</p>
+                    <a href="#" class="btn btn-primary">Ir a Empeños</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Consulta de Clientes -->
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="250">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="bi bi-person-circle" style="font-size: 3rem;"></i>
+                    <h5 class="card-title mt-3">Clientes</h5>
+                    <p class="card-text">Consulta la información de los clientes y registra nuevos empeños.</p>
+                    <a href="/clientes" class="btn btn-primary">Ver Clientes</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas del Empleado -->
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="card text-center">
+                <div class="card-body">
+                    <i class="bi bi-graph-up" style="font-size: 3rem;"></i>
+                    <h5 class="card-title mt-3">Mis Estadísticas</h5>
+                    <p class="card-text">Revisa tus estadísticas y rendimiento.</p>
+                    <a href="#" class="btn btn-primary">Ver Estadísticas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="fixed-bottom m-3 d-flex justify-content-between">
+    <!-- Botón para cambiar de sucursal en la esquina inferior izquierda -->
+    <a href="/select-sucursal" class="btn btn-outline-secondary">
+        <i class="bi bi-door-closed" style="font-size: 1rem; margin-right: 2px;"></i> Cambiar Sucursal
+    </a>
+    
+    <!-- Botón para cerrar sesión en la esquina inferior derecha -->
+    <a href="/login" class="btn btn-outline-secondary">
+        <i class="bi bi-box-arrow-right" style="font-size: 1rem; margin-right: 2px;"></i> Cerrar Sesión
+    </a>
+</div>
+
+<script>
+    function obtenerSaludo() {
+        var horaActual = new Date().getHours();
+        var saludoElement = document.querySelector(".saludo");
+
+        if (horaActual < 12) {
+            saludoElement.innerHTML = "Buenos días <%= userName %>, en este momento estás en <%= sucursalName %>.";
+        } else if (horaActual < 18) {
+            saludoElement.innerHTML = "Buenas tardes <%= userName %>, en este momento estás en <%= sucursalName %>.";
+        } else {
+            saludoElement.innerHTML = "Buenas noches <%= userName %>, en este momento estás en <%= sucursalName %>.";
+        }
+    }
+
+    obtenerSaludo();
+</script>
+
+
+

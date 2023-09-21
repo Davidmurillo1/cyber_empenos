@@ -1,0 +1,17 @@
+<% if (role === 'admin') { %>
+    <%- include('partials/headerAdmin.ejs') %>
+<% } else { %>
+    <%- include('partials/headerEmpleado') %>
+<% } %>
+<form action="/add-empeno" method="POST">
+    <div>
+        <label for="boleta">Boleta:</label>
+        <input type="text" id="boleta" name="boleta" required>
+    </div>
+    <div>
+        <label for="cedula">Cédula:</label>
+        <input type="text" id="cedula" name="cedula" required>
+    </div>
+    <!-- Puedes agregar más campos según lo que necesites -->
+    <button type="submit">Agregar Empeño</button>
+</form>

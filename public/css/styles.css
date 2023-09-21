@@ -1,0 +1,117 @@
+li {
+    color: white !important;
+}
+
+/*ANIMACIÓN PARA TABLAS*/
+@keyframes slideFromLeftAndTop {
+    0% {
+        transform: translate(-30px, -30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}
+
+.slide-in-row {
+    opacity: 0;
+    transform: translate(-50px, -50px);
+    animation: slideFromLeftAndTop 1s forwards;
+}
+
+
+/*ANIMACIÓN LOADER ENTRE CAMBIO DE PÁGINAS*/
+/* Estilos para el overlay y el loader */
+#page-transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo semi-transparente */
+    z-index: 9999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#page-transition-overlay.active {
+    display: flex;
+}
+
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dot {
+    background-color: #333;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    animation: pulse 1.5s infinite;
+}
+
+.dot:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.dot:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+}
+
+
+/* Reducir el margen en las celdas de todas las tablas */
+table.table {
+    margin-bottom: 0 !important;
+}
+
+table.table th,
+table.table td {
+    padding: 5px 10px !important;
+}
+
+/* Reducir el margen en las filas de todas las tablas */
+table.table tbody tr {
+    margin-bottom: 5px !important;
+}
+
+/* Personaliza el estilo del select */
+.custom-select {
+    appearance: none;
+    background-color: white;
+    border: 1px solid #ced4da;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Estilo cuando se enfoca */
+.custom-select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilo cuando se despliega */
+.custom-select::placeholder {
+    color: #6c757d;
+}

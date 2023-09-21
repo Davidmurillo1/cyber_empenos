@@ -1,0 +1,45 @@
+<% if (role === 'admin') { %>
+    <%- include('partials/headerAdmin.ejs') %>
+<% } else { %>
+    <%- include('partials/headerEmpleado') %>
+<% } %>
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center bg-secondary text-white">
+                    <i class="bi bi-person-add" style="font-size: 3rem; color: green;"></i>
+                    <h2>Agregar Cliente</h2>
+                </div>
+                <div class="card-body">
+                    <form action="/addCliente" method="post">
+                        <!-- Campo Cédula -->
+                        <div class="form-group">
+                            <label for="cedula_cliente" class="font-weight-bold">Cédula:</label>
+                            <input type="text" class="form-control" id="cedula_cliente" name="cedula_cliente" placeholder="Ingresa el N° Identificación del cliente" required>
+                        </div>
+
+                        <!-- Campo Nombre -->
+                        <div class="form-group">
+                            <label for="nombre_cliente" class="font-weight-bold">Nombre:</label>
+                            <input type="text" class="form-control" id="nombre_cliente" name="nombre_cliente" placeholder="Escribe su nombre" required>
+                        </div>
+
+                        <!-- Campo Teléfono -->
+                        <div class="form-group">
+                            <label for="telefono_cliente" class="font-weight-bold">Teléfono:</label>
+                            <input type="text" class="form-control" id="telefono_cliente" name="telefono_cliente" placeholder="Escribe algún número de contacto" required>
+                        </div>
+
+                        <!-- Botón Agregar Cliente -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Agregar Cliente</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

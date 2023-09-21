@@ -1,0 +1,82 @@
+<% if (role === 'admin') { %>
+    <%- include('partials/headerAdmin.ejs') %>
+<% } else { %>
+    <%- include('partials/headerEmpleado') %>
+<% } %>
+
+<style>
+    /* Estilos personalizados */
+    body {
+        background-color: #f8f9fa;
+    }
+    .card-header i {
+        font-size: 3rem;
+        color: red;
+    }
+    .form-group label {
+        font-weight: bold;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center bg-secondary text-white">
+                    <i class="bi bi-credit-card" style="font-size: 3rem;"></i>
+                    <h2>Eliminar Pago</h2>
+                    <% if (exito && exito.length > 0) { %>
+                        <div class="alert alert-dismissible alert-success">
+                            <strong>Muy bien!</strong>  <%= exito[0] %>
+                          </div>
+                    <% } %>
+                    <% if (error && error.length > 0) { %>
+                        <div class="alert alert-dismissible alert-danger">
+                            <strong>Ups!</strong>  <%= error[0] %>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="card-body">
+                    <form action="/eliminar-pago" method="post">
+                        <input type="hidden" name="id" id="pagoId" value="<%= pago.id %>" required readonly>
+                        <!-- Campo Boleta -->
+                        <div class="form-group">
+                            <label for="boleta" class="font-weight-bold">Boleta:</label>
+                            <input type="text" class="form-control" id="boleta" name="boleta" placeholder="Número de boleta" value="<%= pago.boleta %>" required readonly>
+                        </div>
+
+                        <!-- Campo Tipo de Pago -->
+                        <div class="form-group">
+                            <label for="exampleSelect1" class="form-label">Tipo de Pago:</label>
+                            <input type="text" class="form-control" value="<%= pago.tipo_pago %>" readonly>
+                        </div>
+                        
+                        
+
+                        <!-- Campo Mes Pago -->
+                        <div class="form-group">
+                            <label for="descripcion" class="font-weight-bold">Mes Pago:</label>
+                            <input type="text" value="<%= pago.fecha_pago %>" class="form-control" readonly>                        </div>
+
+                        <!-- Campo Monto -->
+
+                        <div class="form-group">
+                            <label class="form-label">Monto Registrado:</label>
+                            <div class="form-group">
+                              <div class="input-group mb-3">
+                                <span class="input-group-text">¢</span>
+                                <input type="text" class="form-control" name="monto_pago" value="<%= pago.monto_pago %>" aria-label="Amount (to the nearest dollar)" readonly>
+                              </div>
+                          </div>
+
+                        <!-- Botón Registrar Joya -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Eliminar Pago</button>
+                        </div>
+                    </form>
+                    <p class="text-body-tertiary"><a href="/empeno/<%= pago.boleta %>">Volver al perfil del cliente</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

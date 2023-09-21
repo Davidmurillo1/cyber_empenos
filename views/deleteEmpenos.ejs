@@ -1,0 +1,36 @@
+<% if (role === 'admin') { %>
+    <%- include('partials/headerAdmin.ejs') %>
+<% } else { %>
+    <%- include('partials/headerEmpleado') %>
+<% } %>
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-secondary text-white text-center" >
+                    <i class="bi bi-person-gear" style="font-size: 3rem; color: red;"></i>
+                    <h1>Eliminar Empeño</h1>
+                </div>
+                <div class="card-body">
+                    <form action="/delete-empeno" method="post">
+                        <div class="mb-3">
+                            <label for="boleta" class="form-label">Boleta:</label>
+                            <input type="text" id="boleta" name="boleta" class="form-control" value="<%= boleta %>" readonly required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fecha_ingreso" class="form-label">Fecha:</label>
+                            <input type="text" id="fecha_ingreso" name="fecha_ingreso" class="form-control" value="<%= empeno.fecha_ingreso %>" readonly required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Eliminar Empeño</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

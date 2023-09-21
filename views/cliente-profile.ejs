@@ -1,0 +1,171 @@
+<% if (role === 'admin') { %>
+    <%- include('partials/headerAdmin.ejs') %>
+<% } else { %>
+    <%- include('partials/headerEmpleado') %>
+<% } %>
+
+
+<style>
+    /* Estilos personalizados */
+    .client-info {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    .empenos-table {
+        margin-top: 20px;
+    }
+    .table-sm th, .table-sm td {
+        padding: 0.3rem;
+    }
+</style>
+
+<div class="container mt-5">
+    
+    <div class="row">
+        <h1 class="mb-4">Perfil del Cliente</h1>
+        <div class="message" style="margin-left: 10px;">
+            <% if (exito && exito.length > 0) { %>
+                <div class="alert alert-dismissible alert-success">
+                    <strong>Muy bien!</strong>  <%= exito[0] %>
+                  </div>
+            <% } %>
+            <% if (error && error.length > 0) { %>
+                <div class="alert alert-dismissible alert-danger">
+                    <strong>Ups!</strong>  <%= error[0] %>
+                </div>
+            <% } %>
+        </div>
+        
+    </div>
+    <!-- Información del Cliente y Formulario de Registro -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="client-info">
+                <h3><i class="fas fa-user"></i> Datos:</h3>
+                <p><i class="fas fa-id-card"></i> <strong>Nombre: </strong><%= cliente.nombre_cliente %></p>
+                <p><i class="fas fa-id-card"></i> <strong>Cédula: </strong><%= cliente.cedula_cliente %></p>
+                <p><i class="fas fa-phone"></i> <strong>Teléfono: </strong><%= cliente.telefono_cliente %></p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3><i class="fas fa-plus-circle"></i> Registrar Nuevo Empeño</h3>
+            <form action="/add-empeno" method="POST">
+                <input type="hidden" name="cedula" value="<%= cliente.cedula_cliente %>">
+                <div class="form-group">
+                    <label for="boleta"><i class="fas fa-receipt"></i> Boleta:</label>
+                    <input type="text" class="form-control" id="boleta" name="boleta" required>
+                </div>
+                <div class="form-group">
+                    <label for="fecha"><i class="fas fa-calendar-alt"></i> Fecha:</label>
+                    <input type="date" class="form-control" id="fecha" name="fechaIngreso" required>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Registrar Empeño</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabla de Empeños del Cliente -->
+<div class="row empenos-table mt-5 mb-5">
+    <div class="col-md-12">
+        <h3><i class="fas fa-list"></i> Empeños Registrados</h3>
+        <table class="table table-striped table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th>Boleta</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                    <th>Valor</th>
+                    <th style="width: 5% !important;">Editar</th>
+                    <th style="width: 5% !important;">Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% empenos.forEach(empeno => { %>
+                    <tr>
+                        <td><a href="/empeno/<%= empeno.boleta_empeno %>"><%= empeno.boleta_empeno %></a></td>
+                        <td>
+                            <% if (empeno.estado === 'Al día') { %>
+                                <p style="color: green;"><%= empeno.estado %></p>
+                            <% } else { %>
+                                <p style="color: darkgoldenrod;"><%= empeno.estado %></p>
+                            <% } %>
+                        </td>
+                        <td><%= empeno.fecha_ingreso %></td>
+                        <td>¢<%= formatNumber(empeno.valor_total) %></td>
+                        <!-- Columna para editar -->
+                        <td class="text-center">
+                            <a href="/editempeno/<%= empeno.boleta_empeno %>" class="editar-cliente needs-confirmation" title="Editar Cliente">
+                                <i class="bi bi-pencil-square text-warning" style="font-size: 1.2rem;"></i>
+                            </a>
+                        </td>
+                        <!-- Columna para eliminar -->
+                        <td class="text-center">
+                            <a href="/delete-empeno/<%= empeno.boleta_empeno %>" title="Eliminar Cliente" class="delete-client needs-confirmation";">
+                                <i class="bi bi-trash text-danger" style="font-size: 1.2rem;"></i>
+                            </a>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+<script>
+    $(document).ready(function() {
+    $('.needs-confirmation').on('click', function(event) {
+        event.preventDefault();
+        const url = $(this).attr('href');
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¿Quieres editar este Empeño?no se podrá revertir el cambio.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, editar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Mostrar el loader
+                $('#page-transition-overlay').addClass('active');
+                setTimeout(function() {
+                    window.location.href = url;
+                }, 500); // Espera 1 segundo antes de cambiar de página
+            }
+        });
+    });
+
+    $('.delete-client').on('click', function(event) {
+        event.preventDefault();
+        const url = $(this).attr('href');
+
+        Swal.fire({
+            title: '¡Cuidado!',
+            text: "¿Realmente quieres eliminar este Empeño?, no se podrá revertir el cambio.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33', // Color rojo para la acción de eliminar
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Mostrar el loader
+                $('#page-transition-overlay').addClass('active');
+                setTimeout(function() {
+                    window.location.href = url;
+                }, 500); // Espera 1 segundo antes de cambiar de página
+            }
+        });
+    });
+});
+
+</script>

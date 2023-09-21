@@ -1,0 +1,180 @@
+<% if (role === 'admin') { %>
+    <%- include('partials/headerAdmin.ejs') %>
+<% } else { %>
+    <%- include('partials/headerEmpleado') %>
+<% } %>
+
+<!-- Contenedor principal -->
+<div class="container mx-auto mt-5">
+    <div class="message" style="margin-left: 10px;">
+        <% if (exito && exito.length > 0) { %>
+            <div class="alert alert-dismissible alert-success">
+                <strong>Muy bien!</strong>  <%= exito[0] %>
+              </div>
+        <% } %>
+        <% if (error && error.length > 0) { %>
+            <div class="alert alert-dismissible alert-danger">
+                <strong>Ups!</strong>  <%= error[0] %>
+            </div>
+        <% } %>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h1 class="text-2xl font-semibold text-gray-800">Lista de usuarios</h1>
+        </div>
+        <div class="card-body">
+            <!-- Tabla de usuarios -->
+            <table class="table table-hover table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre de Usuario</th>
+                        <th>Nombre</th>
+                        <th>Rol</th>
+                        <th>Sucursales</th>
+                        <th style="width: 5% !important;">Editar</th>
+                        <th style="width: 5% !important;">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(user => { %>
+                        <tr>
+                            <td><%= user.id %></td>
+                            <td><%= user.username %></td>
+                            <td><%= user.nombre %></td>
+                            <td><%= user.role %></td>
+                            <td>
+                                <% if (user.sucursales && Array.isArray(user.sucursales) && user.sucursales.length > 0) { %>
+                                    <!-- Botón para abrir el modal -->
+                                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#sucursalesModal-<%= user.id %>">
+                                        Ver sucursales
+                                    </button>
+
+                                <% } else { %>
+                                    Sin sucursales
+                                <% } %>
+                            </td>
+                            <!--EDITAR-->
+                            <td class="text-center">
+                                <a href="#" class="editar-pago needs-confirmation" title="Editar Pago">
+                                    <i class="bi bi-pencil-square text-warning" style="font-size: 1.2rem;"></i>
+                                </a>
+                            </td>
+                            <!-- Columna para eliminar -->
+                            <td class="text-center">
+                                <a href="#" title="Eliminar Pago" class="delete needs-confirmation";">
+                                    <i class="bi bi-trash text-danger" style="font-size: 1.2rem;"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    <% }); %>
+                
+                </tbody>
+            </table>
+            <button class="btn btn-success mt-2" data-toggle="modal" data-target="#addEmployeeModal">Agregar Usuario</button>
+
+
+            
+        </div>
+    </div>
+    <!-- Modales de sucursales -->
+    <% users.forEach(user => { %>
+        <% if (user.sucursales && Array.isArray(user.sucursales) && user.sucursales.length > 0) { %>
+            <div class="modal fade" id="sucursalesModal-<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="sucursalesModalLabel-<%= user.id %>" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="sucursalesModalLabel-<%= user.id %>">Sucursales de <%= user.nombre %></h5>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <% user.sucursales.forEach(sucursal => { %>
+                                <p>- <%= sucursal.nombre %></p>
+                            <% }); %>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    <% }); %>
+    
+    
+    
+    <!-- Modal para agregar empleado -->
+    <div class="modal fade" id="addEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addEmployeeModalLabel">Agregar Empleado</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí iría el formulario para agregar un empleado -->
+                    <form action="/register" method="post" id="user-register">
+                        <!-- Campo Usuario -->
+                        <div class="form-group">
+                            <label for="nombre">Usuario:</label>
+                            <input type="text" class="form-control" name="username" placeholder="Escribe el usuario" required>
+                        </div>
+
+                        <!-- Campo Nombre -->
+                        <div class="form-group">
+                            <label for="username">Nombre:</label>
+                            <input type="text" class="form-control" name="nombre" placeholder="Escribe el Nombre del Usuario" required>
+                        </div>
+                        
+                        <!-- Campo Contraseña -->
+                        <div class="form-group">
+                            <label for="password">Contraseña:</label>
+                            <input type="password" class="form-control" name="password" placeholder="Ingresa la contraseña" required>
+                        </div>
+                        
+                        <!-- Campo Rol -->
+                        <div class="form-group">
+                            <label for="role">Rol:</label>
+                            <select class="form-control" name="role">
+                                <option value="admin">Admin</option>
+                                <option value="empleado">Empleado</option>
+                            </select>
+                        </div>
+
+                        <!-- Campo Sucursales -->
+                        <div class="form-group mb-5">
+                            <label class="font-weight-bold">Sucursales:</label>
+                            <% sucursales.forEach(sucursal => { %>
+                                <div class="form-check form-switch mt-2">
+                                    <input class="form-check-input" type="checkbox" id="sucursal-<%= sucursal.id %>" name="sucursales" value="<%= sucursal.id %>">
+                                    <label class="form-check-label" for="sucursal-<%= sucursal.id %>"><%= sucursal.nombre %></label>
+                                </div>
+                            <% }); %>
+                            <small class="form-text text-muted">Activa los interruptores de las sucursales que desees seleccionar.</small>
+                            <div id="sucursal-alert" class="alert alert-danger mt-3" style="display: none;">
+                                Por favor, selecciona al menos una sucursal.
+                            </div>
+                        </div>
+                                        
+                        
+                        <!-- Botón de Registro -->
+                        <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

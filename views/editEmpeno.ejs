@@ -1,0 +1,36 @@
+<% if (role === 'admin') { %>
+    <%- include('partials/headerAdmin.ejs') %>
+<% } else { %>
+    <%- include('partials/headerEmpleado') %>
+<% } %>
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-secondary text-white text-center" >
+                    <i class="bi bi-person-gear" style="font-size: 3rem; color: darkgoldenrod;"></i>
+                    <h1>Editar Empeño</h1>
+                </div>
+                <div class="card-body">
+                    <form action="/editEmpeno" method="post">
+                        <div class="mb-3">
+                            <label for="nombre_cliente" class="form-label">Boleta:</label>
+                            <input type="text" id="boleta" name="boleta" class="form-control" value="<%= empeno.boleta_empeno %>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fechaIngreso" class="form-label">Fecha Ingreso: <%= empeno.fecha_ingreso %></label>
+                            <input type="date" id="fechaIngreso" name="fechaIngreso" class="form-control" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

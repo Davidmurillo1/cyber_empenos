@@ -1,0 +1,37 @@
+<% if (role === 'admin') { %>
+    <%- include('partials/headerAdmin.ejs') %>
+<% } else { %>
+    <%- include('partials/headerEmpleado') %>
+<% } %>
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-secondary text-white text-center" >
+                    <i class="bi bi-person-gear" style="font-size: 3rem; color: darkgoldenrod;"></i>
+                    <h1>Editar Cliente</h1>
+                </div>
+                <div class="card-body">
+                    <form action="/edit-cliente" method="post">
+                            <input type="hidden" name="cedula_cliente" value="<%= cliente.cedula_cliente %>">
+                        <div class="mb-3">
+                            <label for="nombre_cliente" class="form-label">Nombre:</label>
+                            <input type="text" id="nombre_cliente" name="nombre_cliente" class="form-control" value="<%= cliente.nombre_cliente %>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="telefono_cliente" class="form-label">Teléfono:</label>
+                            <input type="text" id="telefono_cliente" name="telefono_cliente" class="form-control" value="<%= cliente.telefono_cliente %>" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
