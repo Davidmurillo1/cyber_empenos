@@ -43,7 +43,7 @@ class User {
             }
         }
     
-        console.log(`Sucursales para el usuario ${userId}:`, sucursales); // Agregamos un log aquí
+        // console.log(`Sucursales para el usuario ${userId}:`, sucursales); // Agregamos un log aquí
     
         return sucursales;
     }
@@ -77,6 +77,8 @@ class User {
 
         return users;
     }
+
+    
 
     static async getSucursalesforUsersByUserId(userId) {
         const [rows] = await db.execute(

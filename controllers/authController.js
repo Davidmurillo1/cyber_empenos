@@ -28,6 +28,7 @@ exports.postLogin = async (req, res) => {
     const user = await User.findByUsername(username);
     if (user && await user.comparePassword(password)) {
         req.session.user = user;
+        req.session.role = user.role;
         // Redirige al usuario a la selección de sucursal
         res.redirect('/select-sucursal');
     } else {

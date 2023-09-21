@@ -20,6 +20,18 @@ app.use(session({
     saveUninitialized: false
 }));
 
+app.use((req, res, next) => {
+    if (!req.session.role && req.path !== '/login') { // Excluye la ruta de login
+        return res.redirect('/login');
+    }
+    if (req.session && req.session.user) { // Verifica si el usuario está en la sesión
+        res.locals.userName = req.session.user.nombre; // Pasa el nombre del usuario a todas las vistas
+    }
+    res.locals.role = req.session.role; // Pasa el rol a todas las vistas
+    next();
+});
+
+
 app.use(flash());
 app.use((req, res, next) => {
     res.locals.exito = req.flash('exito');
