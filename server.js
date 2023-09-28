@@ -6,6 +6,7 @@ const clientesRoutes = require('./routes/clientesRoutes');
 const empenosRoutes = require('./routes/empenosRoutes');
 const joyasRoutes = require('./routes/joyasRoutes');
 const pagosRoutes = require('./routes/pagosRoutes');
+const printRoutes = require('./routes/printRoutes');
 
 
 const app = express();
@@ -27,9 +28,28 @@ app.use((req, res, next) => {
     if (req.session && req.session.user) { // Verifica si el usuario está en la sesión
         res.locals.userName = req.session.user.nombre; // Pasa el nombre del usuario a todas las vistas
     }
-    res.locals.role = req.session.role; // Pasa el rol a todas las vistas
+    res.locals.role = req.session.role;
     next();
 });
+
+app.use(async (req, res, next) => {
+    // Verifica si hay una sucursal en la sesión
+    if(req.session && req.session.sucursal) {
+        try {
+            // Aquí debes poner el código necesario para cargar el logo de la base de datos
+            // Este es solo un ejemplo y debes adaptarlo a tu implementación
+            // Suponiendo que tienes un método para obtener el logo por el id de la sucursal
+            const logo = await Sucursal.obtenerLogoPorId(req.session.sucursal.id);
+            
+            // Almacenar el logo en res.locals para que esté disponible en las vistas
+            res.locals.sucursalLogo = logo;
+        } catch (error) {
+            console.error('Error al obtener el logo de la sucursal:', error);
+        }
+    }
+    next();
+});
+
 
 
 app.use(flash());
@@ -44,6 +64,7 @@ app.use(clientesRoutes);
 app.use(empenosRoutes);
 app.use(joyasRoutes);
 app.use(pagosRoutes);
+app.use(printRoutes);
 
 
 app.listen(3000, () => {

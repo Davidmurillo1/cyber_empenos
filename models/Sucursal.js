@@ -19,6 +19,14 @@ class Sucursal {
         }
         return null;
     }
+
+    static async obtenerLogoPorId(sucursal_id) {
+        const [rows] = await db.execute('SELECT logo FROM sucursales WHERE id = ?', [sucursal_id]);
+        if (rows.length > 0) {
+            return rows[0].logo;
+        }
+        return null;
+    }
     // ... (otros métodos que puedas necesitar en el futuro, como create, delete, update, etc.)
 }
 

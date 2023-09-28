@@ -55,7 +55,9 @@
                     <p style="margin-bottom: 5px;">Sucursal: <%= sucursal %></p>
                     <!-- Botón para abrir el modal -->
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#printPointOfSaleModal">
-                        Imprimir Punto de Venta
+                        <a href="#" onclick="window.open('/imprimir-empeno/<%= empeno.boleta_empeno %>');" title="Imprimir Empeño" class="print">
+                            <i class="bi bi-printer" style="font-size: 1.2rem;"></i>
+                        </a> 
                     </button>
 
 
@@ -125,6 +127,7 @@
                         <th>Mes Pago</th>
                         <th>Fecha Registro</th>
                         <th>Monto</th>
+                        <th style="width: 5% !important;">Imprimir</th>
                         <th style="width: 5% !important;">Editar</th>
                         <th style="width: 5% !important;">Eliminar</th>
                     </tr>
@@ -137,6 +140,11 @@
                             <td><%= pago.fecha_pago %></td>
                             <td><%= pago.fecha_registrada %></td>
                             <td>¢<%= formatNumber(pago.monto_pago) %></td>
+                            <td class="text-center">
+                                <a href="#" onclick="window.open('/imprimir-pago/<%= pago.id %>');" title="Imprimir Pago" class="print">
+                                    <i class="bi bi-printer" style="font-size: 1.2rem;"></i>
+                                </a>                                
+                            </td>
                             <td class="text-center">
                                 <a href="/editar-pago/<%= pago.id %>" class="editar-pago needs-confirmation" title="Editar Pago">
                                     <i class="bi bi-pencil-square text-warning" style="font-size: 1.2rem;"></i>
@@ -215,7 +223,7 @@
                         <p>Teléfono: <%= cliente.telefono_cliente %></p>
                         <h6 class="mt-3">Boleta: <%= empeno.boleta_empeno %></h6>
                         <p>Fecha: <%= empeno.fecha_ingreso %></p>
-                        <p style="color: green;">Valor: ¢<%= formatNumber(value) %></p>
+                        <p style="color: green;">Valor Total: ¢<%= formatNumber(value) %></p>
                         <h6 class="mt-3">Joyas Empeñadas:</h6>
                         <ul style="color: black;">
                             <% joyas.forEach(joya => { %>
