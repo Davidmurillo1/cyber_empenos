@@ -14,17 +14,20 @@
                     <h2>Agregar Cliente</h2>
                 </div>
                 <div class="card-body">
-                    <form action="/addCliente" method="post">
+                    <form action="/addCliente" method="post" autocomplete="off">
                         <!-- Campo Cédula -->
                         <div class="form-group">
                             <label for="cedula_cliente" class="font-weight-bold">Cédula:</label>
-                            <input type="text" class="form-control" id="cedula_cliente" name="cedula_cliente" placeholder="Ingresa el N° Identificación del cliente" required>
+                            <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="cedula_cliente" id="cedula" placeholder="Ingresa el N° Identificación del cliente" aria-label="Ingresa el N° Identificación del cliente" aria-describedby="button-addon2" required>
+                            <button class="btn btn-primary" type="button" id="button-addon2" onclick="buscarNombre()"><i class="bi bi-search"></i></button>
+                            </div>
                         </div>
 
                         <!-- Campo Nombre -->
                         <div class="form-group">
                             <label for="nombre_cliente" class="font-weight-bold">Nombre:</label>
-                            <input type="text" class="form-control" id="nombre_cliente" name="nombre_cliente" placeholder="Escribe su nombre" required>
+                            <input type="text" id="nombre" class="form-control" id="nombre_cliente" name="nombre_cliente" placeholder="Escribe su nombre" required>
                         </div>
 
                         <!-- Campo Teléfono -->
@@ -43,3 +46,37 @@
         </div>
     </div>
 </div>
+
+
+<!-- SCRIPT PARA OBTENER EL NOMBRE SEGÚN LA CÉDULA -->
+<script>
+    document.getElementById('cedula').addEventListener('input', function() {
+      const cedulaInput = document.getElementById('cedula');
+      const nombreInput = document.getElementById('nombre');
+      
+      // Si el input de la cédula está vacío, borra el contenido del input del nombre.
+      if (!cedulaInput.value.trim()) {
+        nombreInput.value = '';
+      }
+    });
+    
+    function buscarNombre() {
+      const cedulaInput = document.getElementById('cedula');
+      const nombreInput = document.getElementById('nombre');
+      const cedula = cedulaInput.value.trim();
+      
+      if (!cedula) return alert('Por favor, introduce una cédula');
+      
+      fetch(`https://api.hacienda.go.cr/fe/ae?identificacion=${cedula}`)
+        .then(response => response.json())
+        .then(data => {
+          nombreInput.value = data.nombre || 'No encontrado';
+        })
+        .catch(error => {
+          console.error('Error durante la fetch:', error);
+          nombreInput.value = 'Error al buscar';
+        });
+    }
+</script>
+    
+    

@@ -55,19 +55,12 @@ exports.getEditarJoya = async (req, res, next) => {
         if (!joya) {
             return res.status(404).send("Joya no encontrada");
         }
-        // Formatear formato de números
-        function formatNumberWithSpaces(num) {
-            if (!num) return '0';
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        }
 
 
         res.render('editarJoya', {
             pageTitle: 'Editar Joya',
             joya: joya,
-            role,
-            formatNumber: formatNumberWithSpaces
-
+            role
         });
     } catch (error) {
         console.error("Error al obtener la joya para editar:", error);

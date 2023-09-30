@@ -54,11 +54,9 @@
                     <% } %>
                     <p style="margin-bottom: 5px;">Sucursal: <%= sucursal %></p>
                     <!-- Botón para abrir el modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#printPointOfSaleModal">
                         <a href="#" onclick="window.open('/imprimir-empeno/<%= empeno.boleta_empeno %>');" title="Imprimir Empeño" class="print">
                             <i class="bi bi-printer" style="font-size: 1.2rem;"></i>
                         </a> 
-                    </button>
 
 
                 </div>
@@ -143,7 +141,7 @@
                             <td class="text-center">
                                 <a href="#" onclick="window.open('/imprimir-pago/<%= pago.id %>');" title="Imprimir Pago" class="print">
                                     <i class="bi bi-printer" style="font-size: 1.2rem;"></i>
-                                </a>                                
+                                </a>                                 
                             </td>
                             <td class="text-center">
                                 <a href="/editar-pago/<%= pago.id %>" class="editar-pago needs-confirmation" title="Editar Pago">
@@ -165,155 +163,6 @@
         </div>
     </div>
 </div>
-
-<iframe id="printFrame" style="display:none;"></iframe>
-
-<!-- Modal de Impresión Punto de Venta -->
-<div class="modal fade" id="printPointOfSaleModal" tabindex="-1" role="dialog" aria-labelledby="printPointOfSaleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="printPointOfSaleModalLabel">Impresión Punto de Venta</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="printContainer">
-                    <!-- Contenido del Modal con Estilos para Impresión -->
-                    <div class="print-container" style="width: 80mm;">
-                        <style>
-                            body {
-                                font-size: 12px;
-                                line-height: 1.5;
-                                font-family: 'Nunito Sans', sans-serif;
-                            }
-                            h6 {
-                                margin-bottom: 10px;
-                                font-weight: bold;
-                            }
-                            p, li {
-                                margin-bottom: 5px;
-                            }
-                            ul {
-                                padding-left: 20px;
-                                margin-bottom: 10px;
-                            }
-                            .text-center {
-                                text-align: center;
-                            }
-                            .firmas p {
-                                margin-bottom: 0;
-                            }
-                            @media print {
-                                body {
-                                    color: black;
-                                }
-                                .print-container {
-                                    width: 80mm;
-                                }
-                            }
-                        </style>
-                        <!-- Aquí va todo el contenido que deseas imprimir -->
-                        <div class="tittle text-center">
-                            <h3>Empeño <%= sucursal %></h3>
-                        </div>
-                        <h6>Cliente: <%= cliente.nombre_cliente %></h6>
-                        <p>Cédula: <%= cliente.cedula_cliente %></p>
-                        <p>Teléfono: <%= cliente.telefono_cliente %></p>
-                        <h6 class="mt-3">Boleta: <%= empeno.boleta_empeno %></h6>
-                        <p>Fecha: <%= empeno.fecha_ingreso %></p>
-                        <p style="color: green;">Valor Total: ¢<%= formatNumber(value) %></p>
-                        <h6 class="mt-3">Joyas Empeñadas:</h6>
-                        <ul style="color: black;">
-                            <% joyas.forEach(joya => { %>
-                                <li style="color: black !important;"><%= joya.joya %> - <%= joya.descripcion %> - <%= joya.material %> - <%= joya.kilates %> - <%= formatNumber(joya.peso) %> g - ¢<%= formatNumber(joya.valor) %></li>
-                            <% }) %>
-                        </ul>
-                        <div class="firmas text-center mt-5">
-                            <p>Atiende: <%= userName %></p>
-                            <p>_______________________________________</p>
-                            <p>Cliente:</p>
-                            <p>_______________________________________</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick="printContent('printContainer')">Imprimir</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-
-<!-- Función para imprimir-->
-<script>
-    function printContent(el) {
-        var printContent = document.getElementById(el).innerHTML;
-        var mywindow = window.open('', 'PRINT', 'height=600,width=1170');
-        
-        mywindow.document.write('<html><head><title>' + document.title  + '</title>');
-        
-        // Incluye los estilos CSS directamente en el contenido que estás imprimiendo
-        mywindow.document.write('<style>');
-        mywindow.document.write('body { font-family: "Nunito Sans", sans-serif; font-size: 12px; line-height: 1.5; }');
-        mywindow.document.write('.tittle {font-size: 18px,}')
-        mywindow.document.write('h6 { margin-top: 10px; font-weight: 400; font-size: 16px; }');
-        mywindow.document.write('p, li { margin-bottom: 5px; }');
-        mywindow.document.write('ul { padding-left: 20px; margin-bottom: 10px; }');
-        mywindow.document.write('.text-center { text-align: center; }');
-        mywindow.document.write('.firmas p { margin-bottom: 10px; }');
-        mywindow.document.write('@page { size: 80mm 150mm; margin: 5mm; }');
-        mywindow.document.write('</style>');
-        
-        mywindow.document.write('</head><body >');
-        mywindow.document.write(printContent);
-        mywindow.document.write('</body></html>');
-        
-        mywindow.document.close();
-        mywindow.focus();
-        
-        mywindow.print();
-        mywindow.close();
-        
-        return true;
-    }
-
-
-
-
-
-
-
-
-// Cuando el modal se oculta (se cierra)
-$(document).ready(function() {
-    // Cuando el modal se oculta (se cierra)
-    $('#printPointOfSaleModal').on('hidden.bs.modal', function () {
-        // Reinicializar el evento de clic del botón de cerrar
-        $('.close-modal-button').off('click').on('click', function() {
-            // Tu código aquí, si necesitas realizar alguna acción adicional al cerrar el modal.
-        });
-    });
-});
-
-
-
-</script>
-
-
-
-
-
-
-
 
 
 
