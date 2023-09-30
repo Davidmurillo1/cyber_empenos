@@ -4,6 +4,8 @@
     <%- include('partials/headerEmpleado.ejs') %>
 <% } %>
 
+
+
 <div class="container mt-5">
     <div class="message" style="margin-left: 10px;">
         <% if (exito && exito.length > 0) { %>
@@ -50,7 +52,13 @@
                     <% } else { %>
                         <p style="color: darkgoldenrod;"><strong>Estado:</strong> <%= estado %></p>
                     <% } %>
-                    
+                    <p style="margin-bottom: 5px;">Sucursal: <%= sucursal %></p>
+                    <!-- Botón para abrir el modal -->
+                        <a href="#" onclick="window.open('/imprimir-empeno/<%= empeno.boleta_empeno %>');" title="Imprimir Empeño" class="print">
+                            <i class="bi bi-printer" style="font-size: 1.2rem;"></i>
+                        </a> 
+
+
                 </div>
             </div>
         </div>
@@ -117,6 +125,7 @@
                         <th>Mes Pago</th>
                         <th>Fecha Registro</th>
                         <th>Monto</th>
+                        <th style="width: 5% !important;">Imprimir</th>
                         <th style="width: 5% !important;">Editar</th>
                         <th style="width: 5% !important;">Eliminar</th>
                     </tr>
@@ -129,6 +138,11 @@
                             <td><%= pago.fecha_pago %></td>
                             <td><%= pago.fecha_registrada %></td>
                             <td>¢<%= formatNumber(pago.monto_pago) %></td>
+                            <td class="text-center">
+                                <a href="#" onclick="window.open('/imprimir-pago/<%= pago.id %>');" title="Imprimir Pago" class="print">
+                                    <i class="bi bi-printer" style="font-size: 1.2rem;"></i>
+                                </a>                                 
+                            </td>
                             <td class="text-center">
                                 <a href="/editar-pago/<%= pago.id %>" class="editar-pago needs-confirmation" title="Editar Pago">
                                     <i class="bi bi-pencil-square text-warning" style="font-size: 1.2rem;"></i>
@@ -149,6 +163,9 @@
         </div>
     </div>
 </div>
+
+
+
 <!-- Enlace al script de Font Awesome para los iconos -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 <script>

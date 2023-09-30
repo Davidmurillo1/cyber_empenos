@@ -3,6 +3,7 @@ const Empeno = require('../models/Empenos');
 const Pago = require('../models/Pagos');
 const Joya = require('../models/Joyas');
 const Cliente = require('../models/Clientes');
+const Sucursal = require('../models/Sucursal');
 const moment = require('moment');
 
 
@@ -255,6 +256,9 @@ function formatDate(date) {
 exports.getEmpenoProfile = async (req, res, next) => {
     try {
         const boleta = req.params.boleta;
+        const sucursal_id = req.session.sucursalId;
+        const sucursal = await Sucursal.getSucursalNameById(sucursal_id);
+        
         
         // Recuperar la información pertinente del empeño usando el número de boleta
         const empenoDetails = await Empeno.getDetailsByBoleta(boleta);
@@ -296,6 +300,7 @@ exports.getEmpenoProfile = async (req, res, next) => {
             pagos: pagos,
             pageTitle: 'Perfil del Empeño',
             role: req.session.role,
+            sucursal,
             formatNumber: formatNumberWithSpaces
         });
     } catch (error) {

@@ -12,7 +12,9 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.6.0",
     "node": "^20.5.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "pdfkit": "^0.13.0",
+    "puppeteer": "^21.3.6"
   },
   "name": "agencia",
   "version": "1.0.0",

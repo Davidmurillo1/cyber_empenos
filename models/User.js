@@ -78,6 +78,8 @@ class User {
         return users;
     }
 
+    
+
     static async getSucursalesforUsersByUserId(userId) {
         const [rows] = await db.execute(
             'SELECT s.id, s.nombre FROM sucursales s JOIN usuario_sucursal us ON s.id = us.sucursal_id WHERE us.usuario_id = ?',
