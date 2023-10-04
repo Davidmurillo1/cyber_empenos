@@ -7,6 +7,8 @@ const empenosRoutes = require('./routes/empenosRoutes');
 const joyasRoutes = require('./routes/joyasRoutes');
 const pagosRoutes = require('./routes/pagosRoutes');
 const printRoutes = require('./routes/printRoutes');
+const { PORT } = require('./config.js');
+
 
 
 const app = express();
@@ -67,6 +69,6 @@ app.use(pagosRoutes);
 app.use(printRoutes);
 
 
-app.listen(3000, () => {
-    console.log('Servidor escuchando en el puerto 3000');
+app.listen(PORT, () => {
+    console.log(`Servidor escuchando en el puerto ${PORT}`);
 });

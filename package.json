@@ -20,7 +20,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon ./server.js"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -28,5 +28,5 @@
   "devDependencies": {
     "nodemon": "^3.0.1"
   },
-  "description": ""
+  "description": "Software para empeños"
 }
