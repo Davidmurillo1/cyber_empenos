@@ -24,16 +24,38 @@ module.exports = class Clientes {
     }
 
     static async getAllBySucursal(sucursalId, limit = 20, offset = 0) {
-        const [rows] = await db.execute(`
-            SELECT cliente.cedula_cliente, cliente.nombre_cliente, cliente.telefono_cliente 
-            FROM cliente 
-            JOIN clientes_sucursales ON cliente.cedula_cliente = clientes_sucursales.cedula_cliente 
-            WHERE clientes_sucursales.sucursal_id = ?
-            ORDER BY cliente.fecha_registro DESC
-            LIMIT ? OFFSET ?
-        `, [sucursalId, limit, offset]);
-        return rows;
+        try {
+            // Convertir los argumentos a números para asegurarse de que son del tipo correcto
+            sucursalId = Number(sucursalId);
+            limit = Number(limit);
+            offset = Number(offset);
+    
+            // Log de los argumentos para depuración
+            console.log("sucursalId:", sucursalId, "limit:", limit, "offset:", offset);
+    
+            // Validar los argumentos para asegurarse de que no son NaN después de la conversión
+            if (isNaN(sucursalId) || isNaN(limit) || isNaN(offset)) {
+                throw new Error("Los argumentos de la consulta SQL no son números válidos");
+            }
+    
+            // Ejecutar la consulta SQL
+            const [rows] = await db.execute(`
+                SELECT cliente.cedula_cliente, cliente.nombre_cliente, cliente.telefono_cliente 
+                FROM cliente 
+                JOIN clientes_sucursales ON cliente.cedula_cliente = clientes_sucursales.cedula_cliente 
+                WHERE clientes_sucursales.sucursal_id = ?
+                ORDER BY cliente.fecha_registro DESC
+                LIMIT ? OFFSET ?
+            `, [sucursalId, limit, offset]);
+    
+            return rows;
+        } catch (error) {
+            // Log de cualquier error para depuración
+            console.error("Error en getAllBySucursal:", error);
+            throw error; // Re-lanzar el error para que pueda ser manejado por el llamador
+        }
     }
+    
     
     
     
@@ -118,10 +140,3 @@ module.exports = class Clientes {
 
 
 }
-
-
-
-
-
-
-
